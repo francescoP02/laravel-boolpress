@@ -6,4 +6,12 @@
     <p>{{$post->content}}</p>
 
     <a class="btn btn-primary" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">Modify</a>
+
+    <form class="d-inline-block" action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" onClick="return confirm('Confirm delete');" method="POST">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+
+
 @endsection
