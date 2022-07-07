@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -58,7 +60,10 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('admin.posts.show', compact('post'));
+
+        $category = $post->category;
+
+        return view('admin.posts.show', compact('post', 'category'));
     }
 
     /**
@@ -70,7 +75,8 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -133,6 +139,8 @@ class PostController extends Controller
         return [
             'title' => 'required|max:255',
             'content' => 'required',
+            // Se è null va bene, se esiste deve essere un id esistente nella tabella
+            'category_id' => 'nullable|exists:categories,id',
         ];
     }
 }
