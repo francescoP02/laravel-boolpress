@@ -63,6 +63,7 @@ class PostController extends Controller
 
         $category = $post->category;
 
+
         return view('admin.posts.show', compact('post', 'category'));
     }
 
