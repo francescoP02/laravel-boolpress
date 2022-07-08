@@ -49,7 +49,9 @@ class PostController extends Controller
         $post->fill($data);
         $post->slug = $this->generatePostSlugFromTitle($post->title);
         $post->save();
-        $post->tags()->sync($data['tags']);
+        if (isset($data['tags'])) {
+            $post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $post->id]);
     }
@@ -80,7 +82,8 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -100,6 +103,13 @@ class PostController extends Controller
         $post->fill($data);
         $post->slug = $this->generatePostSlugFromTitle($post->title);
         $post->save();
+
+        if (isset($data['tags'])) {
+            $post->tags()->sync($data['tags']);
+        } else {
+            $post->tags()->sync([]);
+        }
+
 
         return redirect()->route('admin.posts.show', ['post' => $post->id]);
     }
@@ -145,6 +155,7 @@ class PostController extends Controller
             'content' => 'required',
             // Se è null va bene, se esiste deve essere un id esistente nella tabella
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id',
         ];
     }
 }
