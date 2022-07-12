@@ -1,16 +1,18 @@
 <template>
     <div>
-        <h1>Front office</h1>
-        <WorkInProgress />
+        <div class="container text-center mt-4">
+            <h1>Questa è la pagina guest di boolpress</h1>
+            <Posts />
+        </div>
     </div>
 </template>
 
 <script>
-import WorkInProgress from '../components/WorkInProgress.vue';
+import Posts from '../components/Posts.vue';
 export default {
     name: 'App',
     components: {
-        WorkInProgress,
+        Posts,
     }
 }
 </script>
