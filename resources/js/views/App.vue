@@ -1,18 +1,18 @@
 <template>
     <div>
         <div class="container text-center mt-4">
-            <h1>Questa è la pagina guest di boolpress</h1>
-            <Posts />
+            <Header />
+            <router-view></router-view>
         </div>
     </div>
 </template>
 
 <script>
-import Posts from '../components/Posts.vue';
+import Header from '../components/Header.vue';
 export default {
-    name: 'App',
-    components: {
-        Posts,
+    name: "App",
+    components: { 
+        Header,
     }
 }
 </script>
