@@ -17,6 +17,9 @@
                         <li class="nav-item">
                             <router-link class="nav-link" :to="{name: 'blog'}">Blog<span class="sr-only">(current)</span></router-link>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
+                        </li>
                     </ul>
                 </div>
             </div>
