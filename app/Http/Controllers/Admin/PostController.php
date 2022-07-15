@@ -9,6 +9,8 @@ use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\SendNewMail;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -59,6 +61,8 @@ class PostController extends Controller
         if (isset($data['tags'])) {
             $post->tags()->sync($data['tags']);
         }
+
+        Mail::to('superadmin@boolpress.it')->send(new SendNewMail($post));
 
         return redirect()->route('admin.posts.show', ['post' => $post->id]);
     }
@@ -176,7 +180,7 @@ class PostController extends Controller
             // Se è null va bene, se esiste deve essere un id esistente nella tabella
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id',
-            'image' => 'image|max:512'
+            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:1024',
         ];
     }
 }
