@@ -2,6 +2,9 @@
     <div class="container mt-4">
         <section v-if="post">
         <h1>{{ post.title }}</h1>
+        <div v-if="post.cover">
+            <img :src="post.cover" alt="" />
+        </div>
         <p>Category: {{ categoryName }}</p>
         <div class="mb-4">
             <span v-for="tag in post.tags" :key="tag.id" class="badge rounded-pill bg-warning text-dark mr-3 p-1">{{ tag.name }}</span>

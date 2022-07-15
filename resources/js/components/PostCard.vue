@@ -1,6 +1,7 @@
 <template>
     <div class="card mb-3">
         <div class="card-body">
+            <img v-if="post.cover" class="card-img-top" :src="post.cover" alt="Card image cap" />
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ troncateText(50) }}</p>
             <p>Category: {{ categoryName }}</p>

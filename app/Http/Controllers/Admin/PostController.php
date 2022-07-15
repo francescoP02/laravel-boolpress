@@ -8,6 +8,7 @@ use App\Category;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -45,6 +46,12 @@ class PostController extends Controller
         $request->validate($this->getValidationRules());
 
         $data = $request->all();
+
+        if (isset($data['image'])) {
+            $image_path = Storage::put('post_covers', $data['image']);
+            $data['cover'] = $image_path;
+        }
+
         $post = new Post();
         $post->fill($data);
         $post->slug = $this->generatePostSlugFromTitle($post->title);
@@ -100,6 +107,15 @@ class PostController extends Controller
         $data = $request->all();
 
         $post = Post::findOrFail($id);
+
+        if (isset($data['image'])) {
+            if ($post->cover) {
+                Storage::delete($post->cover);
+            }
+            $image_path = Storage::put('post_covers', $data['image']);
+            $data['cover'] = $image_path;
+        }
+
         $post->fill($data);
         $post->slug = $this->generatePostSlugFromTitle($post->title);
         $post->save();
@@ -124,6 +140,9 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->tags()->sync([]);
+        if($post->cover) {
+            Storage::delete($post->cover);
+        }
         $post->delete();
         return redirect()->route('admin.posts.index');
     }
@@ -157,6 +176,7 @@ class PostController extends Controller
             // Se è null va bene, se esiste deve essere un id esistente nella tabella
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id',
+            'image' => 'image|max:512'
         ];
     }
 }

@@ -17,6 +17,12 @@ class PostController extends Controller
         //     $posts_with_categories[] = $post;
         // }
 
+        foreach ($posts as $post) {
+            if($post->cover) {
+                $post->cover = url('storage/' . $post->cover);
+            } 
+        }
+
         return response()->json([
             'success' => true,
             'results' => $posts //_with_categories,

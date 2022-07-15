@@ -11,7 +11,9 @@
             {{-- Single post --}}
             <div class="col">
                 <div class="card mb-3" style="width: 18rem;">
-                    {{-- <img src="..." class="card-img-top" alt="..."> --}}
+                    @if ($post->cover)
+                        <img class="card-img-top" src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->title }}">
+                    @endif
                     <div class="card-body">
                     <h5 class="card-title">{{$post->title}}</h5>
                     {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
